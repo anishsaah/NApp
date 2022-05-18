@@ -6,7 +6,7 @@ const Stack = createStackNavigator()
 
 const Contact = () => (
   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-    <Text>Contact screen!</Text>
+    <Text>Plant the Spike!</Text>
   </View>
 )
 

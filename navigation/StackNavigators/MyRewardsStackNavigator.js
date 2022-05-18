@@ -6,7 +6,7 @@ const Stack = createStackNavigator()
 
 const MyRewards = () => (
   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-    <Text>MyRewards screen!</Text>
+    <Text>Total Rewarded XP!</Text>
   </View>
 )
 

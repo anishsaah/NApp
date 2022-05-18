@@ -4,21 +4,21 @@ import { createStackNavigator } from '@react-navigation/stack'
 
 const Stack = createStackNavigator()
 
-const Book = () => (
+const Guns = () => (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Book Screen!</Text>
+        <Text>Choose Guns!</Text>
     </View>
 )
 
-const BookStackNavigator = () =>{
+const GunsStackNavigator = () =>{
     return(
         <Stack.Navigator 
             screenOptions={{
                 headerShown: false,
             }}>
-            <Stack.Screen name='Book' component={Book} />   
+            <Stack.Screen name='Guns' component={Guns} />   
         </Stack.Navigator>
     )
 }
 
-export default BookStackNavigator;
+export default GunsStackNavigator;

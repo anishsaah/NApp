@@ -4,7 +4,7 @@ import { Text, StyleSheet } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 import HomeStackNavigator from './StackNavigators/HomeStackNavigator'
-import BookStackNavigator from './StackNavigators/BookStackNavigator'
+import GunsStackNavigator from './StackNavigators/GunStackNavigator'
 import ContactStackNavigator from './StackNavigators/ContactStackNavigator'
 
 const Tab = createBottomTabNavigator()
@@ -19,7 +19,7 @@ const BottomTabNavigator = () => {
         component={HomeStackNavigator}  
         options={{
             tabBarIcon: ({ focused }) => (
-                <Icon name='home' size={30} color={focused ? '#551E18' : '#000'}/>
+                <Icon name='drupal' size={30} color={focused ? 'darkblue' : '#000'}/>
             ),
             tabBarLabel: () => <Text style={styles.tabBarLabel}>Home</Text>
         }}    
@@ -27,13 +27,13 @@ const BottomTabNavigator = () => {
 
 
       <Tab.Screen 
-        name="BookStack" 
-        component={BookStackNavigator} 
+        name="GunsList" 
+        component={GunsStackNavigator} 
         options={{
             tabBarIcon: ({ focused }) => (
-                <Icon name='bed' size={30} color={focused ? '#551E18' : '#000'}/>
+                <Icon name='superpowers' size={30} color={focused ? 'darkblue' : '#000'}/>
             ),
-            tabBarLabel: () => <Text style={styles.tabBarLabel}>Book Room</Text>
+            tabBarLabel: () => <Text style={styles.tabBarLabel}>Gun Here!</Text>
         }}
         />
       
@@ -44,9 +44,9 @@ const BottomTabNavigator = () => {
         component={ContactStackNavigator}
         options={{
             tabBarIcon: ({ focused }) => (
-                <Icon name='phone' size={30} color={focused ? '#551E18' : '#000'}/>
+                <Icon name='codepen' size={25} color={focused ? 'darkblue' : '#000'}/>
             ),
-            tabBarLabel: () => <Text style={styles.tabBarLabel}>Contact Us</Text>
+            tabBarLabel: () => <Text style={styles.tabBarLabel}>Spike Here</Text>
         }}
        />
     
