@@ -1,40 +1,63 @@
 import * as React from 'react'
 import { View, StyleSheet, Image, Text, TouchableOpacity } from 'react-native'
-import { createDrawerNavigator } from '@react-navigation/drawer'
+import { createDrawerNavigator, DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer'
 
-import MyRewardsStackNavigator from './StackNavigators/MyRewardsStackNavigator'
-import MessageStackNavigator from './StackNavigators/MessageStackNavigator'
+import { routes, screens } from './RouteItems'
 import BottomTabNavigator from './BottomTabNavigtor'
 
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 const Drawer = createDrawerNavigator()
 
-const DrawerNavigator = () => {
+const CustomDrawerContent = (props) => {
+  const currentRouteName = props.nav()?.getCurrentRoute().name //get focused route name
+  return(
+    <DrawerContentScrollView{...props}>
+      {
+        routes.filter(route => route.showInDrawer).map((route) =>  {
+          const focusedRouteItem = routes.find( r => r.name === currentRouteName) // get route item config object
+          const focused = focusedRouteItem ? 
+            route.name === focusedRouteItem?.focusedRoute :
+            route.name === screens.MessageStack
+          return(
+            <DrawerItem
+              key={route.name}
+              label = { () => (
+                <Text style={focused ? styles.drawerLabelFocused : styles.drawerLabel }>
+                  {route.title} 
+                </Text>
+              )}
+              onPress = { () => props.navigation.navigate(route.name)}
+              style={[styles.drawerItem, focused ? styles.drawerItemFocused : null ]} 
+            /> 
+          )
+        })
+      }
+    </DrawerContentScrollView>
+  )
+} 
+
+const DrawerNavigator = ({ nav }) => {
   return (
     <Drawer.Navigator
-      screenOptions={ ({navigation}) => ({
+      screenOptions={ ({ navigation }) => ({
         headerStyle: {
           backgroundColor:"#fff",
           height:56,
         },
         headerLeft: () => (
-          <TouchableOpacity 
-            onPress={ () => navigation.toggleDrawer() }     
-            style={styles.headerLeft}
-          >
+          <TouchableOpacity onPress={() => navigation.toggleDrawer()} style={styles.headerLeft}>
             <Icon name="reorder" size={30} color="black"/>
-
           </TouchableOpacity>
         ),
-      })
-
-      }>
+      })}
+      drawerContent =  {(props) => <CustomDrawerContent {...props} nav={nav}/>}
+      >
       
 
 
       <Drawer.Screen 
-        name="HomeTabs" 
+        name={screens.HomeTab}
         component={BottomTabNavigator}
         options={{
           title: "Home",
@@ -50,25 +73,6 @@ const DrawerNavigator = () => {
           ),  
 
         }}/>
-      
-      
-      <Drawer.Screen 
-        name="MyRewardsStack" 
-        component={MyRewardsStackNavigator}
-        options={{
-          title: "My Rewards",
-          headerTitle: () => <Text style={styles.headerTitle}> My Rewards </Text>,
-        }}
-      />
-      
-      <Drawer.Screen 
-        name="MessageList" 
-        component={MessageStackNavigator}
-        options={{
-          title: "Messages",
-          headerTitle: () => <Text style={styles.headerTitle}> ALL Message </Text>,
-        }}
-      />      
 
     </Drawer.Navigator>
   )
@@ -82,7 +86,7 @@ const styles = StyleSheet.create({
   },
 
   logo:{
-    paddingLeft: 100,
+    paddingLeft: 110,
   },
 
   headerTitle:{
@@ -90,11 +94,28 @@ const styles = StyleSheet.create({
     // color: 'Black',
     fontWeight:'500',
     fontSize: 18,
+    paddingLeft:95,
+    
   },
 
   headerLeft:{
     marginLeft: 15,
-  }
+  },
+  
+  drawerLabel:{
+    fontSize: 14,
+  },
+  drawerLabelFocused:{
+    fontSize: 14,
+    color: 'black',
+    fontWeight: '500',
+  },
+  drawerItem:{
+    height: 50,
+    justifyContent: 'center',
+  },
 
-}
-)
+  drawerItemFocused:{
+    backgroundColor:"#758996",
+  },
+})

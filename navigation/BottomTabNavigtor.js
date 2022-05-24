@@ -1,57 +1,51 @@
 import * as React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { Text, StyleSheet } from 'react-native'
-import Icon from 'react-native-vector-icons/FontAwesome'
+import { Text, StyleSheet,View } from 'react-native'
+import { routes,screens } from './RouteItems'
 
 import HomeStackNavigator from './StackNavigators/HomeStackNavigator'
 import GunsStackNavigator from './StackNavigators/GunStackNavigator'
 import ContactStackNavigator from './StackNavigators/ContactStackNavigator'
 
+import MyRewardsStackNavigator from './StackNavigators/MyRewardsStackNavigator'
+import MessageStackNavigator from './StackNavigators/MessageStackNavigator'
+
 const Tab = createBottomTabNavigator()
+
+const tabOptions = ({ route }) => {
+  const item = routes.find(routeItem => routeItem.name === route.name ) //get the route config object
+
+  if (!item.showInTab) {
+    return{
+      tabBarButton: () => <View style= {{width: 0 }} />,
+      headerShown: false,
+      tabBarSyle: styles.tabContainer,
+      title: item.title,
+    }
+  }
+
+  return{
+    tabBarIcon: ({ focused }) => item.icon(focused),
+    tabBarLabel: () => (
+      <Text style={styles.tabBarLabel}> {item.title || ""} </Text>
+    ),
+    headerShown: false,
+    tabBarSyle: styles.tabContainer,
+    title:item.title,
+  }
+
+}
 
 const BottomTabNavigator = () => {
   return (
-    <Tab.Navigator screenOptions={{
-      headerShown: false,
-    }}>
-      <Tab.Screen 
-        name="HomeStack" 
-        component={HomeStackNavigator}  
-        options={{
-            tabBarIcon: ({ focused }) => (
-                <Icon name='drupal' size={30} color={focused ? 'darkblue' : '#000'}/>
-            ),
-            tabBarLabel: () => <Text style={styles.tabBarLabel}>Home</Text>
-        }}    
-        />
+    <Tab.Navigator screenOptions={tabOptions}>
+      <Tab.Screen name={screens.HomeStack} component={HomeStackNavigator} />
+      <Tab.Screen name={screens.GunStack} component={GunsStackNavigator}/>
+      <Tab.Screen name={screens.ContactStack} component={ContactStackNavigator}/>
+      
+      <Tab.Screen name={screens.MyRewardsStack} component={MyRewardsStackNavigator}/>
+      <Tab.Screen name={screens.MessageStack} component={MessageStackNavigator}/>
 
-
-      <Tab.Screen 
-        name="GunsList" 
-        component={GunsStackNavigator} 
-        options={{
-            tabBarIcon: ({ focused }) => (
-                <Icon name='superpowers' size={30} color={focused ? 'darkblue' : '#000'}/>
-            ),
-            tabBarLabel: () => <Text style={styles.tabBarLabel}>Gun Here!</Text>
-        }}
-        />
-      
-      
-      
-      <Tab.Screen 
-        name="ContactStack" 
-        component={ContactStackNavigator}
-        options={{
-            tabBarIcon: ({ focused }) => (
-                <Icon name='codepen' size={25} color={focused ? 'darkblue' : '#000'}/>
-            ),
-            tabBarLabel: () => <Text style={styles.tabBarLabel}>Spike Here</Text>
-        }}
-       />
-    
-    
-    
     </Tab.Navigator>
   )
 }
@@ -63,4 +57,12 @@ const styles = StyleSheet.create({
       color: '#292929',
       fontSize: 12,
     },
+
+    tabContainer:{
+      height: 60,
+    }
   })
+  
+
+
+
